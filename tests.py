@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from cStringIO import StringIO
 from echo_client import client
 import socket
