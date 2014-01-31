@@ -126,5 +126,4 @@ if __name__ == '__main__':
     server_process.daemon = True
     server_process.start()
     unittest.main()
-    import pdb; pdb.set_trace()
     server_process.terminate()
