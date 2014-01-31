@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from cStringIO import StringIO
 from echo_client import client
+from echo_server import server
 import socket
 import unittest
 
@@ -120,4 +121,10 @@ class EchoTestCase(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    import multiprocessing
+    server_process = multiprocessing.Process(name='daemon', target=server)
+    server_process.daemon = True
+    server_process.start()
     unittest.main()
+    import pdb; pdb.set_trace()
+    server_process.terminate()
