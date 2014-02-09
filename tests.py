@@ -121,9 +121,8 @@ class EchoTestCase(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    import multiprocessing
-    server_process = multiprocessing.Process(name='daemon', target=server)
-    server_process.daemon = True
-    server_process.start()
+    import threading
+    server_thread = threading.Thread(target=server)
+    server_thread.daemon = True
+    server_thread.start()
     unittest.main()
-    server_process.terminate()
