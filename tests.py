@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from cStringIO import StringIO
 from echo_client import client
-from echo_server import server
+# from select_echo_server import server
 import socket
+import sys
 import unittest
 
 
@@ -121,8 +122,26 @@ class EchoTestCase(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    target = None
+    if len(sys.argv) > 1:
+        server_method = sys.argv.pop(1)
+        if server_method not in ['select', 'gevent']:
+            print "server method must be one of 'select' or 'gevent'"
+            sys.exit(1)
+        if server_method == 'select':
+            from select_echo_server import server as target
+        else:
+            from gevent.server import StreamServer
+            from gevent_echo_server import echo
+            from gevent.monkey import patch_all
+            patch_all()
+            server = StreamServer(('127.0.0.1', 10000), echo)
+            target = server.serve_forever
+    else:
+        from echo_server import server as target
+
     import threading
-    server_thread = threading.Thread(target=server)
+    server_thread = threading.Thread(target=target)
     server_thread.daemon = True
     server_thread.start()
     unittest.main()

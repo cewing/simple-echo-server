@@ -8,7 +8,7 @@ def server(log_buffer=sys.stderr):
     # allow rapid re-use of the socket
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sock.bind(address)
-    sock.listen(1)
+    sock.listen(10)
 
     try:
         while True:
